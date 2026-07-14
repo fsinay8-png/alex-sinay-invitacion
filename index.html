@@ -6,7 +6,7 @@
 <title>Invitación de Graduación — Alex Leonel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cormorant+SC:wght@500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cormorant+SC:wght@500;700&family=Jost:wght@300;400;500;600&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#0E1B34;
@@ -170,22 +170,31 @@
   }
   .eyebrow{
     font-family:'Jost',sans-serif;
-    letter-spacing:.35em;
+    letter-spacing:.2em;
     text-transform:uppercase;
     font-size:11px;
+    line-height:1.8;
     color:var(--gold-light);
-    margin-bottom:18px;
+    margin-bottom:6px;
+  }
+  .occasion{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:22px;
+    color:var(--ivory);
+    margin-bottom:22px;
   }
   .grad-cap{
     width:54px;height:54px;margin:0 auto 20px;
     opacity:.9;
   }
   h1.name{
-    font-family:'Cormorant Garamond', serif;
-    font-weight:600;
-    font-size:44px;
-    line-height:1.05;
-    margin:0 0 6px;
+    font-family:'Pinyon Script', cursive;
+    font-weight:400;
+    font-size:64px;
+    line-height:1.15;
+    margin:0 0 10px;
     color:var(--ivory);
   }
   .degree{
@@ -300,6 +309,27 @@
     border:1px solid var(--line);
     border-radius:20px;
     color:var(--gold-light);
+  }
+
+  /* Guest count selector */
+  .guest-select{
+    appearance:none;
+    -webkit-appearance:none;
+    font-family:'Jost',sans-serif;
+    font-size:14px;
+    color:var(--ivory);
+    background:rgba(201,162,75,0.08);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:10px 34px 10px 14px;
+    cursor:pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'><path d='M1 1l6 6 6-6' stroke='%23C9A24B' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+  }
+  .guest-select option{
+    background:var(--navy);
+    color:var(--ivory);
   }
 
   /* RSVP */
@@ -522,7 +552,8 @@
 <div id="invite">
 
   <div class="hero">
-    <div class="eyebrow">Con inmensa alegría celebramos</div>
+    <div class="eyebrow">Con gran orgullo y emoción<br>te invitamos a celebrar un logro especial</div>
+    <div class="occasion">Mi Graduación</div>
     <svg class="grad-cap" viewBox="0 0 64 64" fill="none">
       <path d="M32 14L58 24L32 34L6 24L32 14Z" stroke="#C9A24B" stroke-width="1.5" stroke-linejoin="round"/>
       <path d="M18 28V42C18 42 24 48 32 48C40 48 46 42 46 42V28" stroke="#C9A24B" stroke-width="1.5"/>
@@ -533,7 +564,7 @@
     <div class="degree">Licenciatura en Administración de Empresas,<br>Tecnología y Desarrollo de Recursos Humanos</div>
     <div class="school">Universidad Galileo</div>
     <div class="rule"></div>
-    <p class="invite-line">Te invitamos a acompañarnos en esta noche tan especial, donde celebraremos juntos años de esfuerzo, sueños cumplidos y los que vienen.</p>
+    <p class="invite-line">Después de mucho esfuerzo, dedicación y crecimiento, estoy listo para el próximo capítulo. Será un honor contar con tu presencia en este día tan inolvidable.</p>
   </div>
 
   <section>
@@ -573,6 +604,21 @@
         <div class="chips">
           <span class="chip">Formal</span>
         </div>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <svg class="detail-icon" viewBox="0 0 24 24" fill="none"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.4"/><circle cx="9" cy="7" r="3.5" stroke="currentColor" stroke-width="1.4"/><path d="M17 8a3 3 0 1 1 0-6" stroke="currentColor" stroke-width="1.4"/><path d="M20 20v-2a4 4 0 0 0-2.5-3.7" stroke="currentColor" stroke-width="1.4"/></svg>
+      <div>
+        <div class="detail-title">Cantidad de asistentes</div>
+        <div class="detail-sub" style="margin-bottom:10px;">Indícanos cuántas personas asistirán (máximo 5)</div>
+        <select class="guest-select" id="guestCount">
+          <option value="1">1 persona</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+          <option value="5">5 personas</option>
+        </select>
       </div>
     </div>
   </section>
@@ -688,6 +734,7 @@
   const btnYes = document.getElementById('btnYes');
   const btnNo = document.getElementById('btnNo');
   const rsvpMsg = document.getElementById('rsvpMsg');
+  const guestCount = document.getElementById('guestCount');
   const rsvpNumber = "50258499049";
 
   function selectRSVP(answer){
@@ -702,8 +749,11 @@
     }
     rsvpMsg.classList.add('show');
 
+    const n = guestCount.value;
+    const guestsLabel = n === "1" ? "1 persona" : (n + " personas");
+
     const text = answer === 'yes'
-      ? "¡Hola! Confirmo con alegría mi asistencia a la graduación de Alex Leonel 🎓 Ahí estaré el 19 de septiembre."
+      ? "¡Hola! Confirmo con alegría mi asistencia a la graduación de Alex Leonel 🎓 Ahí estaré el 19 de septiembre. Asistiremos: " + guestsLabel + "."
       : "Hola, lamentablemente no podré acompañarlos en la graduación de Alex Leonel el 19 de septiembre. ¡Felicidades para él!";
     window.open("https://wa.me/" + rsvpNumber + "?text=" + encodeURIComponent(text), "_blank");
   }
