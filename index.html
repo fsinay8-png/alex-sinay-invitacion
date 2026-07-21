@@ -683,6 +683,81 @@
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
   }
+
+  /* ---------- Ubica tu asiento ---------- */
+  .seat-finder{ text-align:center; }
+  .seat-step{ text-align:left; margin-bottom:26px; }
+  .seat-step-label{
+    display:flex; align-items:center; gap:10px;
+    font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold-light); margin-bottom:14px;
+  }
+  .seat-step-num{
+    width:24px; height:24px; border:1px solid var(--gold); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond', serif; font-size:13px; color:var(--gold-light);
+    flex-shrink:0;
+  }
+
+  /* Custom select */
+  .name-select{ position:relative; }
+  .name-select-trigger{
+    width:100%; padding:14px 16px;
+    background:rgba(201,162,75,0.06); border:1px solid var(--line); border-radius:8px;
+    color:var(--ivory); font-family:'Jost', sans-serif; font-size:14px;
+    text-align:left; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:border-color .2s ease;
+  }
+  .name-select-trigger:hover, .name-select.open .name-select-trigger{ border-color:var(--gold); }
+  .name-select-trigger .chev{ width:14px; height:14px; color:var(--gold); transition:transform .25s ease; flex-shrink:0; }
+  .name-select.open .name-select-trigger .chev{ transform:rotate(180deg); }
+  .name-select-panel{
+    position:absolute; top:calc(100% + 6px); left:0; right:0;
+    max-height:0; overflow:hidden;
+    background:#101F3C; border:1px solid var(--line); border-radius:8px;
+    z-index:20; opacity:0;
+    transition:max-height .3s ease, opacity .3s ease;
+    box-shadow:0 12px 30px rgba(0,0,0,0.45);
+  }
+  .name-select.open .name-select-panel{ max-height:260px; overflow-y:auto; opacity:1; }
+  .name-option{
+    padding:12px 16px; font-size:13.5px; color:rgba(246,241,228,0.85);
+    cursor:pointer; border-bottom:1px solid rgba(201,162,75,0.1);
+    transition:background .15s ease;
+  }
+  .name-option:last-child{ border-bottom:none; }
+  .name-option:hover{ background:rgba(201,162,75,0.1); }
+  .name-option.selected{ background:var(--gold); color:#241c05; font-weight:500; }
+
+  /* Step 2 result */
+  .seat-arrow-down{ display:flex; justify-content:center; color:var(--gold); opacity:.7; margin:-6px 0 20px; }
+  .seat-arrow-down svg{ width:16px; height:16px; }
+  .seat-result{ border:1px solid var(--line); border-radius:12px; padding:26px 20px; background:rgba(201,162,75,0.05); }
+  .seat-result-row{ display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; }
+  .seat-result-item{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .seat-result-icon{
+    width:56px; height:56px; border-radius:50%; border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .seat-result-icon svg{ width:26px; height:26px; color:var(--gold); }
+  .seat-result-label{ font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-light); }
+  .seat-result-value{ font-family:'Cormorant Garamond', serif; font-size:30px; font-weight:600; color:var(--ivory); margin-top:2px; }
+  .seat-result-value.is-phrase{ font-size:19px; font-weight:500; max-width:190px; line-height:1.35; }
+  .seat-result-divider{ width:1px; height:52px; background:var(--line); }
+  .seat-result-caption{ text-align:center; font-size:13px; color:rgba(246,241,228,0.75); margin-top:18px; }
+  .seat-result-quote{
+    text-align:center; display:flex; align-items:center; justify-content:center; gap:12px; margin-top:14px;
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-size:14.5px; color:var(--gold-light);
+  }
+  .seat-result-quote .heart-line{ width:34px; height:1px; background:var(--gold); opacity:.6; }
+
+  .seat-thanks{
+    text-align:center; display:flex; align-items:center; justify-content:center; gap:12px;
+    font-size:12.5px; letter-spacing:.1em; color:var(--gold-light); margin-top:20px;
+  }
+  .seat-thanks .orn-arrows{ opacity:.7; }
+  .seat-empty-hint{ text-align:center; font-size:13px; color:rgba(246,241,228,0.55); padding:10px 0 4px; }
 </style>
 </head>
 <body>
@@ -769,14 +844,6 @@
           </div>
         </div>
 
-        <div class="detail-row">
-          <div class="icon-box"><svg class="detail-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.4"/></svg></div>
-          <div>
-            <div class="detail-title">Número de mesa</div>
-            <div class="detail-sub">Mesa 8</div>
-          </div>
-        </div>
-
       </div>
 
       <div class="details-right">
@@ -788,22 +855,66 @@
         </div>
       </div>
     </div>
+  </section>
 
-    <div style="width:100%; margin-top:18px;">
-      <div class="section-heading" style="margin-bottom:14px;">
-        <span class="orn-line"></span><span class="orn-diamond"></span>
-        <span class="orn-txt">Hemos reservado</span>
-        <span class="orn-diamond"></span><span class="orn-line"></span>
-      </div>
-      <div class="seat-picker">
-        <div class="seat-item"><span class="seat-circle"></span><span class="seat-num">1</span></div>
-        <div class="seat-item selected"><span class="seat-circle"></span><span class="seat-num">2</span></div>
-        <div class="seat-item"><span class="seat-circle"></span><span class="seat-num">3</span></div>
-        <div class="seat-item"><span class="seat-circle"></span><span class="seat-num">4</span></div>
-        <div class="seat-item"><span class="seat-circle"></span><span class="seat-num">5</span></div>
-      </div>
-      <div class="seat-caption">Lugares en su honor</div>
+  <section class="seat-finder">
+    <div class="section-heading">
+      <span class="orn-line"></span><span class="orn-diamond"></span>
+      <span class="orn-txt">Ubica tu asiento</span>
+      <span class="orn-diamond"></span><span class="orn-line"></span>
     </div>
+    <p style="font-family:'Cormorant Garamond', serif; font-size:15px; color:rgba(246,241,228,0.7); margin:-14px 0 26px;">
+      Encuentra rápidamente tu lugar en la recepción
+    </p>
+
+    <div class="seat-step">
+      <div class="seat-step-label"><span class="seat-step-num">1</span><span>Selecciona tu nombre</span></div>
+      <div class="name-select" id="nameSelect">
+        <button type="button" class="name-select-trigger" id="nameSelectTrigger">
+          <span id="nameSelectLabel">Selecciona tu nombre</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="name-select-panel" id="nameSelectPanel"></div>
+      </div>
+    </div>
+
+    <div id="seatStep2Wrap" style="display:none;">
+      <div class="seat-arrow-down">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v14M6 12l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="seat-step">
+        <div class="seat-step-label"><span class="seat-step-num">2</span><span>Tu asiento</span></div>
+        <div class="seat-result">
+          <div class="seat-result-row">
+            <div class="seat-result-item">
+              <div class="seat-result-icon">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.4"/><path d="M12 13v7M8 20h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <div class="seat-result-label">Mesa asignada</div>
+              <div class="seat-result-value" id="seatTableNum">Mesa —</div>
+            </div>
+            <div class="seat-result-divider"></div>
+            <div class="seat-result-item">
+              <div class="seat-result-icon">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 19c0-3 2.5-5 6-5s6 2 6 5M14 14c2.8 0 5 1.8 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <div class="seat-result-label">Personas en la reserva</div>
+              <div class="seat-result-value is-phrase" id="seatPartySize">—</div>
+            </div>
+          </div>
+          <div class="seat-result-caption">Tu asiento corresponde a esta mesa.</div>
+          <div class="seat-result-quote"><span class="heart-line"></span><span>¡Nos encantará compartir este momento contigo!</span><span class="heart-line"></span></div>
+        </div>
+      </div>
+
+      <div class="seat-thanks">
+        <span class="orn-arrows">»»</span>
+        <span>Gracias por ser parte de este día tan especial</span>
+        <span class="orn-arrows">««</span>
+      </div>
+    </div>
+    <div class="seat-empty-hint" id="seatEmptyHint">Selecciona tu nombre para ver tu mesa asignada.</div>
   </section>
 
   <section class="rsvp-box">
@@ -1024,6 +1135,122 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   });
+
+  // ---- Ubica tu asiento ----
+  // URL de tu Google Apps Script publicado como "Aplicación web" (termina en /exec).
+  // Mientras no la pegues aquí, la página usará la lista de respaldo de abajo.
+  const APPS_SCRIPT_URL = 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT';
+
+  // Lista de respaldo: solo se usa si APPS_SCRIPT_URL no está configurada
+  // o si por algún motivo no se puede contactar al Sheet en ese momento.
+  const guestDataFallback = [
+    { name: "Angela Sinay", size: 1, table: 1 },
+    { name: "Fernando Sinay", size: 1, table: 1 },
+    { name: "David Cermeño", size: 1, table: 1 },
+    { name: "Keyly Lopez", size: 1, table: 1 },
+    { name: "Oswaldo Sinay", size: 1, table: 1 },
+    { name: "Manuel Sinay", size: 1, table: 1 },
+    { name: "Edgar Sinay y Fam.", size: 4, table: 2 },
+    { name: "Cesar Sinay", size: 5, table: 2 },
+    { name: "Eduardo Espinoza y Fam.", size: 4, table: 3 },
+    { name: "Sergio Cardona y Fam", size: 4, table: 3 },
+    { name: "Francisco Sinay", size: 2, table: 3 },
+    { name: "Byron Sinay y Fam.", size: 3, table: 4 },
+    { name: "Angela Juarez y Fam.", size: 2, table: 4 },
+    { name: "Sandy Espinoza y Fam.", size: 3, table: 4 },
+    { name: "Miguel Espinoza y Fam.", size: 2, table: 4 },
+    { name: "Fredy Sinay y Fam.", size: 3, table: 4 },
+    { name: "Israel Espinoza y Fam.", size: 5, table: 5 },
+    { name: "Julissa Morales Y Fam.", size: 5, table: 6 },
+    { name: "Mabelyn Cruz y Fam.", size: 2, table: 6 },
+    { name: "David Santos y Fam.", size: 4, table: 6 },
+    { name: "Angel David Sequen", size: 1, table: 8 },
+    { name: "Selvin Lopez", size: 1, table: 8 },
+    { name: "Sergio Pineda", size: 1, table: 8 },
+    { name: "Yeniffer Pixola", size: 1, table: 8 },
+    { name: "Natalia Socoreque", size: 1, table: 8 },
+    { name: "Walter Rodriguez y Fam.", size: 3, table: 8 },
+    { name: "Etelvina Izaguirre y Fam.", size: 2, table: 8 }
+  ];
+
+  (function initSeatFinder(){
+    const nameSelect = document.getElementById('nameSelect');
+    const trigger = document.getElementById('nameSelectTrigger');
+    const label = document.getElementById('nameSelectLabel');
+    const panel = document.getElementById('nameSelectPanel');
+    const step2Wrap = document.getElementById('seatStep2Wrap');
+    const emptyHint = document.getElementById('seatEmptyHint');
+    const seatTableNum = document.getElementById('seatTableNum');
+    const seatPartySize = document.getElementById('seatPartySize');
+
+    if(!nameSelect) return;
+
+    function isUrlConfigured(){
+      return APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf('PEGA_AQUI') === -1;
+    }
+
+    function loadGuestData(){
+      if(!isUrlConfigured()){
+        return Promise.resolve(guestDataFallback);
+      }
+      return fetch(APPS_SCRIPT_URL)
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          return (Array.isArray(data) && data.length) ? data : guestDataFallback;
+        })
+        .catch(function(){
+          return guestDataFallback;
+        });
+    }
+
+    loadGuestData().then(buildNameOptions);
+
+    function buildNameOptions(guestData){
+      const sortedGuests = guestData.slice().sort(function(a, b){
+        return a.name.localeCompare(b.name, 'es');
+      });
+
+      sortedGuests.forEach(function(guest){
+        const opt = document.createElement('div');
+        opt.className = 'name-option';
+        opt.textContent = guest.name;
+        opt.setAttribute('data-name', guest.name);
+        opt.addEventListener('click', function(){
+          selectGuest(guest.name);
+          closePanel();
+        });
+        panel.appendChild(opt);
+      });
+
+      function openPanel(){ nameSelect.classList.add('open'); }
+      function closePanel(){ nameSelect.classList.remove('open'); }
+
+      trigger.addEventListener('click', function(){
+        nameSelect.classList.contains('open') ? closePanel() : openPanel();
+      });
+      document.addEventListener('click', function(e){
+        if(!nameSelect.contains(e.target)) closePanel();
+      });
+
+      function selectGuest(selectedName){
+        const guest = guestData.find(function(g){ return g.name === selectedName; });
+        if(!guest) return;
+
+        label.textContent = guest.name;
+        Array.prototype.forEach.call(panel.querySelectorAll('.name-option'), function(el){
+          el.classList.toggle('selected', el.getAttribute('data-name') === selectedName);
+        });
+
+        seatTableNum.textContent = 'Mesa ' + guest.table;
+        seatPartySize.textContent = guest.size === 1
+          ? 'Solo tú'
+          : 'Tú + ' + (guest.size - 1) + (guest.size - 1 === 1 ? ' persona más' : ' personas más');
+
+        step2Wrap.style.display = 'block';
+        emptyHint.style.display = 'none';
+      }
+    }
+  })();
 })();
 </script>
 
